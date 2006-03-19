@@ -1,0 +1,49 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>ConfigGeneralOptions</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>ConfigGeneralOptions</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>282</width>
+            <height>66</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>General Options</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLineEdit" row="1" column="0">
+            <property name="name">
+                <cstring>kcfg_Kurl</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="1">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Pop3 KIO-Slave KURL.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_ShowErrorDialogs</cstring>
+            </property>
+            <property name="text">
+                <string>Show information popups when an error occurs.</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

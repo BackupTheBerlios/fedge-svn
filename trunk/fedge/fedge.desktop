@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Fedge
+Exec=fedge
+Icon=fedge
+Type=Application
+DocPath=fedge/fedge.html
+GenericName=Email Notification
+Terminal=false
+Categories=Qt;KDE;Network

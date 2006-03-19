@@ -1,0 +1,4 @@
+File=fedge.kcfg
+ClassName=FedgeConfig
+Mutators=true
+Singleton=true
