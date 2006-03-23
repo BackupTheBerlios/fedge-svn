@@ -204,10 +204,8 @@ targetfile=$(top_builddir)/fedge/deleter.o
 /usr/share/qt3/include/qpair.h
 /usr/share/qt3/include/qnamespace.h
 /usr/share/qt3/include/qwinexport.h
-/usr/share/qt3/include/qptrstack.h
-/usr/share/qt3/include/qglist.h
-/usr/share/qt3/include/qptrcollection.h
-/usr/share/qt3/include/qglobal.h
+/usr/share/qt3/include/qvaluestack.h
+/usr/share/qt3/include/qvaluelist.h
 /home/mkulke/Development/fedge-0.1/fedge/deleter.moc
 /usr/share/qt3/include/qmetaobject.h
 /usr/share/qt3/include/qconnection.h
@@ -217,6 +215,8 @@ targetfile=$(top_builddir)/fedge/deleter.o
 /usr/share/qt3/include/qstring.h
 /usr/share/qt3/include/qptrlist.h
 /usr/share/qt3/include/qglist.h
+/usr/share/qt3/include/qptrcollection.h
+/usr/share/qt3/include/qglobal.h
 /usr/share/qt3/include/qwinexport.h
 /usr/share/qt3/include/qdatastream.h
 /usr/share/qt3/include/qapplication.h

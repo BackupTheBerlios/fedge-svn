@@ -3,16 +3,21 @@
 #include <qptrlist.h>
 #include <qtextstream.h>
 #include <qfile.h>
+#include <qtextcodec.h>
 
 #include <kio/job.h>
 #include <kio/global.h>
 #include <klocale.h>
+#include <kmdcodec.h>
 
+#include "pop3common.h"
 #include "pop3fetcher.h"
 #include "message.h"
 #include "fedgeconfig.h"
 
-Pop3Fetcher::Pop3Fetcher(QValueList<Q_UINT16> *crctable) : Fetcher(crctable) {	
+Pop3Fetcher::Pop3Fetcher(QValueList<Q_UINT16> *crctable, QMap<QString, QString> *configmap) : Fetcher(crctable) {
+
+	m_configmap = configmap;
 }
 
 Pop3Fetcher::~Pop3Fetcher() {
@@ -24,7 +29,8 @@ void Pop3Fetcher::fetchMessages() {
 	is connected to a slot which handles the arrived list and to a slot for
 	the result of the operation. */
 
-	KIO::ListJob *listjob = KIO::listDir(kurlBase(), false);
+	KIO::ListJob *listjob = KIO::listDir(Pop3Common::kurlBase(m_configmap), false);
+	Pop3Common::setMetaData(m_configmap, listjob);
 	if (FedgeConfig::showErrorDialogs()) listjob->setAutoErrorHandlingEnabled(true);  	
 	connect(listjob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)), SLOT(slotEntries(KIO::Job*, const KIO::UDSEntryList&)));	
 	connect(listjob, SIGNAL(result(KIO::Job*)), SLOT(slotListDirResult(KIO::Job*)));
@@ -40,12 +46,13 @@ void Pop3Fetcher::getMessage(int n) {
 	string defined in derived classes a "headers" string and the number
 	of the message to be fetched. We only need */
 		
-	 KURL kurl = kurlBase() + "/headers/" + QString::number(n);	
+	KURL kurl = Pop3Common::kurlBase(m_configmap) + "/headers/" + QString::number(n);	
 
 	/* The TransferJob is started by the get Method (true says it should not 
 	be retrieved from cache and false supresses progress widgets). */
 
 	KIO::TransferJob *transferjob = KIO::get(kurl, true, false);
+	Pop3Common::setMetaData(m_configmap, transferjob);
 
 	/* The job is added the number of the message as metadata */
 	transferjob->addMetaData("pop3number", QString::number(n));
@@ -124,6 +131,7 @@ void Pop3Fetcher::slotGetResult(KIO::Job *job) {
 
 			m_messagebuffer.open(IO_ReadOnly);
 			QTextStream stream(&m_messagebuffer);
+// 			stream.setCodec(QTextCodec::codecForName("iso 8859-1"));
 			QString line = "";
 			QString sender = "";
 			QString subject = i18n("no subject");;
@@ -132,6 +140,14 @@ void Pop3Fetcher::slotGetResult(KIO::Job *job) {
 			extracted from the header. */
 	
 			while(!stream.atEnd()) {
+
+/*	TODO: correct encoding
+
+	<ahigerd> So what I'd do is read in the line as a QString using the Latin-1 codec, then split it on the ? character into a QStringList
+	<ahigerd> Decode the quoted characters, then pass the 4th part to QTextCodec using the 2nd part as the charset
+	<ahigerd> Use the 3rd part to determine whether to decode it as quoted characters or as base64
+
+	http://www.faqs.org/rfcs/rfc2047.html chapter 2 */
 							
 				line = stream.readLine();
 				if ((line.startsWith("Subject:")) || (line.startsWith("subject:"))) subject = line.remove(0,8);
@@ -184,7 +200,8 @@ void Pop3Fetcher::commit()
 	/* To close the connection to the pop3 server the "commit" file is to be
 	retrieved. */
 	
-	KIO::TransferJob *commitjob = KIO::get(kurlBase() + "/commit", true, false);
+	KIO::TransferJob *commitjob = KIO::get(Pop3Common::kurlBase(m_configmap) + "/commit", true, false);
+	Pop3Common::setMetaData(m_configmap, commitjob);
 	if (FedgeConfig::showErrorDialogs()) commitjob->setAutoErrorHandlingEnabled(true); 
 	connect(commitjob, SIGNAL(result(KIO::Job*)), SLOT(slotCommitResult(KIO::Job*))); 
 }

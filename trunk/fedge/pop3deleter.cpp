@@ -13,17 +13,14 @@
 #include "message.h"
 #include "fedgeconfig.h"
 #include "pop3deleter.h"
+#include "pop3common.h"
 
+Pop3Deleter::Pop3Deleter(QValueList<Q_UINT16> *crctable, QMap<QString, QString> *configmap) : Deleter(crctable) {
 
-Pop3Deleter::Pop3Deleter(QValueList<Q_UINT16> *crctable) : Deleter(crctable)
-{
+	m_configmap = configmap;
 }
 
-
-Pop3Deleter::~Pop3Deleter()
-{
-}
-
+Pop3Deleter::~Pop3Deleter() {}
 
 void Pop3Deleter::deleteMessages() {
 
@@ -36,10 +33,11 @@ void Pop3Deleter::getMessage(Message *m) {
 	else {
 	
 		m_messagebuffer.setBuffer(QByteArray());
-		KURL kurl = kurlBase() + "/headers/" + QString::number(m->getNumber());
+		KURL kurl = Pop3Common::kurlBase(m_configmap) + "/headers/" + QString::number(m->number());
 		KIO::TransferJob *transferjob = KIO::get(kurl, true, false);
-		transferjob->addMetaData("pop3number", QString::number(m->getNumber()));
-		transferjob->addMetaData("crc", QString::number(m->getCrc()));
+		Pop3Common::setMetaData(m_configmap, transferjob);
+		transferjob->addMetaData("pop3number", QString::number(m->number()));
+		transferjob->addMetaData("crc", QString::number(m->crc()));
 		if (FedgeConfig::showErrorDialogs()) transferjob->setAutoErrorHandlingEnabled(true);  	
 		connect(transferjob, SIGNAL(data(KIO::Job*, const QByteArray&)), SLOT(slotData(KIO::Job*, const QByteArray&)));
 		connect(transferjob, SIGNAL(result(KIO::Job*)), SLOT(slotGetResult(KIO::Job*)));
@@ -87,7 +85,8 @@ void Pop3Deleter::slotGetResult(KIO::Job *job) {
 	} else {
 
 		qWarning("delete: message %d: crc match", meta["pop3number"].toInt());
-		KIO::TransferJob *deletejob = KIO::get(kurlBase() + "/remove/" + meta["pop3number"], true, false);
+		KIO::TransferJob *deletejob = KIO::get(Pop3Common::kurlBase(m_configmap) + "/remove/" + meta["pop3number"], true, false);
+		Pop3Common::setMetaData(m_configmap, deletejob);
 		deletejob->addMetaData(meta);
 		if (FedgeConfig::showErrorDialogs()) deletejob->setAutoErrorHandlingEnabled(true);
 		connect(deletejob, SIGNAL(result(KIO::Job*)), SLOT(slotDelResult(KIO::Job*))); 
@@ -115,7 +114,8 @@ void Pop3Deleter::slotDelResult(KIO::Job *job) {
  */
 void Pop3Deleter::commit()
 {
-	KIO::TransferJob *commitjob = KIO::get(kurlBase() + "/commit", true, false);
+	KIO::TransferJob *commitjob = KIO::get(Pop3Common::kurlBase(m_configmap) + "/commit", true, false);
+	Pop3Common::setMetaData(m_configmap, commitjob);
 	if (FedgeConfig::showErrorDialogs()) commitjob->setAutoErrorHandlingEnabled(true); 
 	connect(commitjob, SIGNAL(result(KIO::Job*)), SLOT(slotCommitResult(KIO::Job*)));
 }

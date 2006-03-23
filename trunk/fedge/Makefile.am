@@ -18,13 +18,13 @@ fedge_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 fedge_LDADD   = $(LIB_KFILE) -lkdeprint
 
 # which sources should be compiled for fedge
-fedge_SOURCES = main.cpp fedge.cpp message.cpp pop3fetcher.cpp kmailfetcher.cpp \
-	fedgeballoon.cpp pop3deleter.cpp kmaildeleter.cpp deleter.cpp fetcher.cpp \
-	fedgeconfig.kcfgc configgeneraloptions.ui
+fedge_SOURCES = main.cpp fedge.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp \
+	pop3deleter.cpp deleter.cpp fetcher.cpp fedgeconfig.kcfgc configgeneraloptions.ui \
+	configaccounts.ui account.cpp appopener.cpp kmailaccount.cpp pop3common.cpp
 
 # these are the headers for your project
 noinst_HEADERS = fedge.h message.h fetcher.h deleter.h opener.h pop3fetcher.h \
-	kmailfetcher.h fedgeballoon.h pop3deleter.h kmaildeleter.h
+	fedgeballoon.h pop3deleter.h account.h appopener.h kmailaccount.h pop3common.h
 
 # client stuff
 

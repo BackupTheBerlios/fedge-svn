@@ -11,10 +11,10 @@ class Message {
 	public:
 		Message(QString sender, QString subject, int number = -1, Q_UINT16 crc = 0);
 		
-		QString getSender() { return m_sender; };
-		QString getSubject() { return m_subject; };
-		Q_UINT16 getCrc() { return m_crc; };
-		int getNumber() { return m_number; };
+		QString sender() { return m_sender; };
+		QString subject() { return m_subject; };
+		Q_UINT16 crc() { return m_crc; };
+		int number() { return m_number; };
 		
 	private:
 		Deleter* m_deleter;	

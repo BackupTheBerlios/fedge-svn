@@ -3,6 +3,7 @@
 
 #include <qvaluestack.h>
 #include <qbuffer.h>
+#include <qmap.h>
 
 #include <kfileitem.h>
 #include <kio/global.h>
@@ -13,14 +14,14 @@
 class Pop3Fetcher : public Fetcher {
 	Q_OBJECT
 	public:
-		Pop3Fetcher(QValueList<Q_UINT16> *crctable);
+		Pop3Fetcher(QValueList<Q_UINT16> *crctable, QMap<QString, QString> *configmap);
 		~Pop3Fetcher();
 		void fetchMessages();
 
 	private:
 		void getMessage();
 		void getMessage(int n);		
-    void commit();
+    	void commit();
 
 	public slots:	
 		void slotEntries(KIO::Job *job, const KIO::UDSEntryList &list);
@@ -30,12 +31,9 @@ class Pop3Fetcher : public Fetcher {
 		void slotListDirResult(KIO::Job *job);
 	
 	private:
-// 		QValueStack<int> m_fetchstack;
 		unsigned int m_tofetch;
-
-	protected:	
+		QMap<QString, QString> *m_configmap;
 		QBuffer m_messagebuffer;	
-		virtual QString kurlBase() = 0;
 };
 
 #endif // POP3FETCHER_H

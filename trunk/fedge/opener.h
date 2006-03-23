@@ -1,12 +1,16 @@
 #ifndef OPENER_H
 #define OPENER_H
 
-class Opener {
+#include <qobject.h>
 
+class Opener : public QObject {
+	Q_OBJECT
 public:
 	Opener() {};
-	virtual void open() = 0; 
-
+	virtual bool open() = 0;
+ 
+signals:
+	void openFinished();
 };
 
 #endif // OPENER_H

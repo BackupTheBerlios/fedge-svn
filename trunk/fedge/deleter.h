@@ -2,7 +2,7 @@
 #define DELETER_H
 
 #include <qobject.h>
-#include <qptrstack.h>
+#include <qvaluestack.h>
 #include <qvaluelist.h>
 
 class Message;
@@ -13,10 +13,11 @@ public:
 	Deleter(QValueList<Q_UINT16> *crctable) { m_crctable = crctable; };
 	virtual void deleteMessages() = 0; 
 	void pushMessage(Message* m) { m_messagestack.push(m); };
+	void clearMessages() { while (!m_messagestack.isEmpty()) delete m_messagestack.pop(); };
 
 protected:
 	QValueList<Q_UINT16> *m_crctable;
-	QPtrStack<Message> m_messagestack;
+	QValueStack<Message*> m_messagestack;
 
 signals:
 	void deleteFinished();

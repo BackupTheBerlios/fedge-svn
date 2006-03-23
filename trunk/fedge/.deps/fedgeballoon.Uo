@@ -310,8 +310,8 @@ targetfile=$(top_builddir)/fedge/fedgeballoon.o
 /home/mkulke/Development/fedge-0.1/fedge/message.h
 /home/mkulke/Development/fedge-0.1/fedge/opener.h
 /home/mkulke/Development/fedge-0.1/fedge/deleter.h
-/usr/share/qt3/include/qptrstack.h
-/usr/share/qt3/include/qglist.h
+/usr/share/qt3/include/qvaluestack.h
+/usr/share/qt3/include/qvaluelist.h
 /home/mkulke/Development/fedge-0.1/fedge/fedgeballoon.h
 /usr/include/kde/kactivelabel.h
 /usr/share/qt3/include/qtextbrowser.h

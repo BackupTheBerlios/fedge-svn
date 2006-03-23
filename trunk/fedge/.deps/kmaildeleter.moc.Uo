@@ -207,13 +207,9 @@ fedge/deleter.h
 /usr/share/qt3/include/qpair.h
 /usr/share/qt3/include/qnamespace.h
 /usr/share/qt3/include/qwinexport.h
-/usr/share/qt3/include/qptrstack.h
-/usr/share/qt3/include/qglist.h
-/usr/share/qt3/include/qptrcollection.h
-/usr/share/qt3/include/qglobal.h
-fedge/pop3fetcher.h
 /usr/share/qt3/include/qvaluestack.h
 /usr/share/qt3/include/qvaluelist.h
+fedge/pop3fetcher.h
 /usr/share/qt3/include/qbuffer.h
 /usr/share/qt3/include/qiodevice.h
 /usr/share/qt3/include/qstring.h
@@ -225,6 +221,8 @@ fedge/pop3fetcher.h
 /usr/share/qt3/include/qstring.h
 /usr/share/qt3/include/qptrlist.h
 /usr/share/qt3/include/qglist.h
+/usr/share/qt3/include/qptrcollection.h
+/usr/share/qt3/include/qglobal.h
 /usr/share/qt3/include/qwinexport.h
 /usr/share/qt3/include/qdatastream.h
 /usr/include/sys/stat.h
@@ -284,8 +282,6 @@ fedge/pop3fetcher.h
 /usr/share/qt3/include/qobject.h
 /usr/share/qt3/include/qwinexport.h
 fedge/fetcher.h
-/usr/include/kde/kmdcodec.h
-/usr/include/kde/kdelibs_export.h
 /usr/share/qt3/include/qmetaobject.h
 /usr/share/qt3/include/qconnection.h
 /usr/share/qt3/include/qobject.h

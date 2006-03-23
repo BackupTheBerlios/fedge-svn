@@ -126,7 +126,6 @@ targetfile=$(top_builddir)/fedge/message.o
 /usr/include/c++/4.0.2/bits/basic_string.tcc
 /usr/share/qt3/include/qwinexport.h
 /home/mkulke/Development/fedge-0.1/fedge/opener.h
-/home/mkulke/Development/fedge-0.1/fedge/deleter.h
 /usr/share/qt3/include/qobject.h
 /usr/share/qt3/include/qobjectdefs.h
 /usr/share/qt3/include/qglobal.h
@@ -207,7 +206,6 @@ targetfile=$(top_builddir)/fedge/message.o
 /usr/share/qt3/include/qpair.h
 /usr/share/qt3/include/qnamespace.h
 /usr/share/qt3/include/qwinexport.h
-/usr/share/qt3/include/qptrstack.h
-/usr/share/qt3/include/qglist.h
-/usr/share/qt3/include/qptrcollection.h
-/usr/share/qt3/include/qglobal.h
+/home/mkulke/Development/fedge-0.1/fedge/deleter.h
+/usr/share/qt3/include/qvaluestack.h
+/usr/share/qt3/include/qvaluelist.h

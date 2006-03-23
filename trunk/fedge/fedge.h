@@ -5,16 +5,10 @@
 #include <config.h>
 #endif
 
-#include <qvaluelist.h>
-
 #include <kapplication.h>
 #include <kmainwindow.h>
 
-#include <kio/global.h>
-
-class KURL;
-class Fetcher;
-class Deleter;
+class Account;
 class QTimer;
 class KSystemTray;
 class Message;
@@ -51,12 +45,14 @@ private:
 	void saveSettings();
 
 private slots:
-		
-		void slotTimeout();
-		void slotFetchFinished();
-		void slotDeleteFinished();
-		void slotDelete(Message *message);
-		void slotIgnore(Message *message);		
+	
+	void slotTimeout();
+	void slotFetchFinished();
+	void slotDeleteFinished();
+	void slotOpenFinished();
+	void slotDelete(Message *message);
+	void slotIgnore(Message *message);		
+	void slotOpen(Message *message);
 
 private:
 	void setupAccel();
@@ -65,12 +61,11 @@ private:
 
 private:
 		
-	Deleter *m_deleter;
-	Fetcher *m_fetcher;
+	Account *m_account;
 	QTimer		*m_timer;
 	KSystemTray *m_systemtray;
-	bool m_busy;
-	QValueList<Q_UINT16> m_crctable;
+// 	bool m_busy;
+
 public slots:
     void slotShowConfigure();
 };

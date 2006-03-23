@@ -249,12 +249,6 @@ fedge/configgeneraloptions.h
 /usr/share/qt3/include/qvaluelist.h
 /usr/share/qt3/include/qstringlist.h
 /usr/share/qt3/include/qmap.h
-/usr/share/qt3/include/qlineedit.h
-/usr/share/qt3/include/qframe.h
-/usr/share/qt3/include/qwidget.h
-/usr/share/qt3/include/qstring.h
-/usr/share/qt3/include/qlabel.h
-/usr/share/qt3/include/qframe.h
 /usr/share/qt3/include/qcheckbox.h
 /usr/share/qt3/include/qbutton.h
 /usr/share/qt3/include/qwidget.h

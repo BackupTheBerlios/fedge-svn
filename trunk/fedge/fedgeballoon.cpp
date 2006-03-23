@@ -44,7 +44,7 @@ FedgeBalloon::FedgeBalloon(Message *message)
 
 	m_message = message;
 
-	QString text = i18n("From:") + message->getSender() + "\n" + i18n("Subject:") + message->getSubject();
+	QString text = i18n("From:") + message->sender() + "\n" + i18n("Subject:") + message->subject();
 
 	QVBoxLayout *BalloonLayout = new QVBoxLayout(this, 22, KDialog::spacingHint(), "BalloonLayout");
 

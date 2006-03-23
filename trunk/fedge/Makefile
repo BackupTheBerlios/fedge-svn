@@ -57,8 +57,12 @@ $(DESTDIR)$(kde_icondir)/hicolor/64x64/apps/fedge.png: $(top_srcdir)/fedge/hi64-
 $(top_builddir)/fedge/Makefile: $(top_builddir)/config.status $(top_srcdir)/fedge/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status fedge/Makefile
 
-$(top_builddir)/fedge/kmaildeleter.moc.cpp: $(top_srcdir)/fedge/kmaildeleter.h
-	@echo 'creating $(top_builddir)/fedge/kmaildeleter.moc.cpp'
+$(top_builddir)/fedge/appopener.moc.cpp: $(top_srcdir)/fedge/appopener.h
+	@echo 'creating $(top_builddir)/fedge/appopener.moc.cpp'
+	@$(MOC) $? -o $@
+
+$(top_builddir)/fedge/opener.moc.cpp: $(top_srcdir)/fedge/opener.h
+	@echo 'creating $(top_builddir)/fedge/opener.moc.cpp'
 	@$(MOC) $? -o $@
 
 $(top_builddir)/fedge/pop3deleter.moc.cpp: $(top_srcdir)/fedge/pop3deleter.h
@@ -82,46 +86,53 @@ uninstall-kde-icons-top_fedge:
 	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/64x64/apps/fedge.png
 
 KDE_ICON = $(srcdir)/hi128-app-fedge.png $(srcdir)/hi16-app-fedge.png $(srcdir)/hi32-app-fedge.png $(srcdir)/hi22-app-fedge.png $(srcdir)/hi64-app-fedge.png
-METASOURCES = fedgeballoon=./fedgeballoon.h=fedgeballoon.cpp pop3fetcher=./pop3fetcher.h kmaildeleter=./kmaildeleter.h fedge=./fedge.h=fedge.cpp kmailfetcher=./kmailfetcher.h=kmailfetcher.cpp fetcher=./fetcher.h=fetcher.cpp deleter=./deleter.h=deleter.cpp pop3deleter=./pop3deleter.h configgeneraloptions=configgeneraloptions.h=configgeneraloptions.cpp
-QT3_UIFILES = configgeneraloptions
+METASOURCES = fedgeballoon=./fedgeballoon.h=fedgeballoon.cpp pop3fetcher=./pop3fetcher.h fedge=./fedge.h=fedge.cpp fetcher=./fetcher.h=fetcher.cpp opener=./opener.h pop3deleter=./pop3deleter.h appopener=./appopener.h deleter=./deleter.h=deleter.cpp configgeneraloptions=configgeneraloptions.h=configgeneraloptions.cpp configaccounts=configaccounts.h=configaccounts.cpp
+QT3_UIFILES = configgeneraloptions configaccounts
+__um_includes_account.h = account.cpp kmailaccount.cpp fedge.cpp
+__um_includes_appopener.h = kmailaccount.cpp appopener.cpp
 __um_includes_config.h = main.cpp fedge.cpp
-__um_includes_configgeneraloptions.h = fedge.cpp
+__um_includes_configaccounts.h = fedge.cpp configaccounts.cpp
+__um_includes_configaccounts.moc = configaccounts.cpp
+__um_includes_configgeneraloptions.h = configgeneraloptions.cpp fedge.cpp
+__um_includes_configgeneraloptions.moc = configgeneraloptions.cpp
 __um_includes_dcopclient.h = main.cpp
-__um_includes_deleter.h = fedgeballoon.cpp message.cpp deleter.cpp pop3fetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_deleter.h = account.cpp kmailaccount.cpp fedge.cpp pop3deleter.cpp deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp
 __um_includes_deleter.moc = deleter.cpp
 __um_includes_fedge.h = main.cpp fedge.cpp
 __um_includes_fedge.moc = fedge.cpp
-__um_includes_fedgeballoon.h = fedgeballoon.cpp fedge.cpp
+__um_includes_fedgeballoon.h = fedge.cpp fedgeballoon.cpp
 __um_includes_fedgeballoon.moc = fedgeballoon.cpp
-__um_includes_fedgeconfig.h = pop3fetcher.cpp fedge.cpp pop3deleter.cpp
-__um_includes_fetcher.h = fetcher.cpp pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_fedgeconfig.h = fedge.cpp pop3deleter.cpp pop3fetcher.cpp fedgeconfig.cpp
+__um_includes_fetcher.h = account.cpp kmailaccount.cpp fedge.cpp pop3deleter.cpp pop3fetcher.cpp fetcher.cpp
 __um_includes_fetcher.moc = fetcher.cpp
 __um_includes_kaboutdata.h = main.cpp
 __um_includes_kaccel.h = fedge.cpp
 __um_includes_kaction.h = fedge.cpp
-__um_includes_kactivelabel.h = fedgeballoon.cpp fedge.cpp
-__um_includes_kapplication.h = fedgeballoon.cpp main.cpp fedge.cpp
+__um_includes_kactivelabel.h = fedge.cpp fedgeballoon.cpp
+__um_includes_kapplication.h = main.cpp fedge.cpp fedgeballoon.cpp
 __um_includes_kcmdlineargs.h = main.cpp
-__um_includes_kconfig.h = fedge.cpp
+__um_includes_kconfig.h = kmailaccount.cpp fedge.cpp
 __um_includes_kconfigdialog.h = fedge.cpp
-__um_includes_kdeversion.h = fedgeballoon.cpp fedge.cpp
-__um_includes_kdialog.h = fedgeballoon.cpp
+__um_includes_kconfigskeleton.h = fedge.cpp pop3deleter.cpp pop3fetcher.cpp fedgeconfig.cpp
+__um_includes_kdebug.h = fedge.cpp pop3deleter.cpp pop3fetcher.cpp fedgeconfig.cpp
+__um_includes_kdeversion.h = fedge.cpp fedgeballoon.cpp
+__um_includes_kdialog.h = configgeneraloptions.cpp configaccounts.cpp fedgeballoon.cpp
 __um_includes_kedittoolbar.h = fedge.cpp
 __um_includes_kfiledialog.h = fedge.cpp
-__um_includes_kfileitem.h = pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_kfileitem.h = kmailaccount.cpp pop3deleter.cpp pop3fetcher.cpp
 __um_includes_kglobal.h = fedge.cpp
 __um_includes_kglobalsettings.h = fedgeballoon.cpp
 __um_includes_kiconloader.h = fedge.cpp
-__um_includes_klocale.h = fedgeballoon.cpp pop3fetcher.cpp main.cpp fedge.cpp
-__um_includes_kmaildeleter.h = fedge.cpp kmaildeleter.cpp
-__um_includes_kmailfetcher.h = kmailfetcher.cpp fedge.cpp
-__um_includes_kmailfetcher.moc = kmailfetcher.cpp
+__um_includes_klocale.h = configgeneraloptions.cpp main.cpp fedge.cpp configaccounts.cpp pop3fetcher.cpp fedgeballoon.cpp
+__um_includes_kmailaccount.h = kmailaccount.cpp fedge.cpp
 __um_includes_kmainwindow.h = main.cpp fedge.cpp
-__um_includes_kmdcodec.h = fetcher.cpp pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_kmdcodec.h = pop3fetcher.cpp
 __um_includes_kmenubar.h = fedge.cpp
 __um_includes_kmessagebox.h = fedge.cpp
 __um_includes_kpopupmenu.h = fedge.cpp
 __um_includes_kprinter.h = fedge.cpp
+__um_includes_kprocess.h = appopener.cpp
+__um_includes_kstaticdeleter.h = fedgeconfig.cpp
 __um_includes_kstatusbar.h = fedge.cpp
 __um_includes_kstdaccel.h = fedge.cpp
 __um_includes_kstdaction.h = fedge.cpp
@@ -129,27 +140,41 @@ __um_includes_ksystemtray.h = fedge.cpp
 __um_includes_kurl.h = fedge.cpp
 __um_includes_kurldrag.h = fedge.cpp
 __um_includes_kurlrequesterdlg.h = fedge.cpp
-__um_includes_message.h = fedgeballoon.cpp message.cpp pop3fetcher.cpp fedge.cpp pop3deleter.cpp
-__um_includes_opener.h = fedgeballoon.cpp message.cpp pop3fetcher.cpp fedge.cpp pop3deleter.cpp
-__um_includes_pop3deleter.h = fedge.cpp kmaildeleter.cpp pop3deleter.cpp
-__um_includes_pop3fetcher.h = pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
-__um_includes_qbuffer.h = pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_message.h = fedge.cpp pop3deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp
+__um_includes_opener.h = kmailaccount.cpp fedge.cpp pop3deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp appopener.cpp
+__um_includes_pop3common.h = pop3common.cpp
+__um_includes_pop3deleter.h = kmailaccount.cpp pop3deleter.cpp
+__um_includes_pop3fetcher.h = kmailaccount.cpp pop3deleter.cpp pop3fetcher.cpp
+__um_includes_qbuffer.h = kmailaccount.cpp pop3deleter.cpp pop3fetcher.cpp
+__um_includes_qcheckbox.h = configgeneraloptions.cpp
+__um_includes_qdialog.h = configgeneraloptions.cpp fedge.cpp configaccounts.cpp
 __um_includes_qfile.h = pop3fetcher.cpp
-__um_includes_qlabel.h = fedgeballoon.cpp
-__um_includes_qlayout.h = fedgeballoon.cpp
-__um_includes_qobject.h = fedgeballoon.cpp message.cpp fetcher.cpp deleter.cpp pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_qframe.h = configaccounts.cpp
+__um_includes_qheader.h = configaccounts.cpp
+__um_includes_qimage.h = configaccounts.cpp
+__um_includes_qlabel.h = configgeneraloptions.cpp fedgeballoon.cpp
+__um_includes_qlayout.h = configgeneraloptions.cpp configaccounts.cpp fedgeballoon.cpp
+__um_includes_qlineedit.h = configgeneraloptions.cpp
+__um_includes_qlistview.h = configaccounts.cpp
+__um_includes_qmap.h = kmailaccount.cpp fedge.cpp pop3deleter.cpp pop3fetcher.cpp
+__um_includes_qobject.h = account.cpp kmailaccount.cpp fedge.cpp pop3deleter.cpp deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp appopener.cpp fetcher.cpp
 __um_includes_qpaintdevicemetrics.h = fedge.cpp
-__um_includes_qpainter.h = fedgeballoon.cpp fedge.cpp
+__um_includes_qpainter.h = fedge.cpp fedgeballoon.cpp
+__um_includes_qpixmap.h = fedge.cpp configaccounts.cpp
 __um_includes_qpointarray.h = fedgeballoon.cpp
 __um_includes_qptrlist.h = pop3fetcher.cpp
-__um_includes_qptrstack.h = fedgeballoon.cpp message.cpp fetcher.cpp deleter.cpp pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
 __um_includes_qpushbutton.h = fedgeballoon.cpp
-__um_includes_qstring.h = fedgeballoon.cpp message.cpp pop3fetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
+__um_includes_qstring.h = account.cpp kmailaccount.cpp fedge.cpp pop3deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp pop3common.cpp
+__um_includes_qstringlist.h = kmailaccount.cpp appopener.cpp
+__um_includes_qtextcodec.h = pop3fetcher.cpp
 __um_includes_qtextstream.h = pop3fetcher.cpp
-__um_includes_qtimer.h = fedgeballoon.cpp fedge.cpp
-__um_includes_qtooltip.h = fedgeballoon.cpp
-__um_includes_qvaluelist.h = fedgeballoon.cpp message.cpp fetcher.cpp deleter.cpp pop3fetcher.cpp main.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
-__um_includes_qvaluestack.h = pop3fetcher.cpp kmailfetcher.cpp fedge.cpp kmaildeleter.cpp pop3deleter.cpp
-__um_includes_qwidget.h = fedgeballoon.cpp pop3fetcher.cpp fedge.cpp
-fedge_SOURCES = main.cpp fedge.cpp message.cpp pop3fetcher.cpp kmailfetcher.cpp fedgeballoon.cpp pop3deleter.cpp kmaildeleter.cpp deleter.cpp fetcher.cpp fedgeconfig.kcfgc configgeneraloptions.ui pop3fetcher.moc.cpp kmaildeleter.moc.cpp pop3deleter.moc.cpp
+__um_includes_qtimer.h = fedge.cpp fedgeballoon.cpp
+__um_includes_qtoolbutton.h = configaccounts.cpp
+__um_includes_qtooltip.h = configgeneraloptions.cpp configaccounts.cpp fedgeballoon.cpp
+__um_includes_qvaluelist.h = main.cpp account.cpp kmailaccount.cpp fedge.cpp pop3deleter.cpp deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp fetcher.cpp
+__um_includes_qvaluestack.h = account.cpp kmailaccount.cpp fedge.cpp pop3deleter.cpp deleter.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp fetcher.cpp
+__um_includes_qvariant.h = configgeneraloptions.cpp fedge.cpp configaccounts.cpp
+__um_includes_qwhatsthis.h = configgeneraloptions.cpp configaccounts.cpp
+__um_includes_qwidget.h = fedge.cpp pop3fetcher.cpp fedgeballoon.cpp
+fedge_SOURCES = main.cpp fedge.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp pop3deleter.cpp deleter.cpp fetcher.cpp fedgeconfig.kcfgc configgeneraloptions.ui configaccounts.ui account.cpp appopener.cpp kmailaccount.cpp pop3common.cpp pop3fetcher.moc.cpp opener.moc.cpp pop3deleter.moc.cpp appopener.moc.cpp
 .PHONY: all final install-kde-icons-top_fedge uninstall-kde-icons-top_fedge

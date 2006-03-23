@@ -252,11 +252,9 @@ targetfile=$(top_builddir)/fedge/kmaildeleter.o
 /home/mkulke/Development/fedge-0.1/fedge/kmaildeleter.h
 fedge/pop3deleter.h
 fedge/deleter.h
-/usr/share/qt3/include/qptrstack.h
-/usr/share/qt3/include/qglist.h
-fedge/pop3fetcher.h
 /usr/share/qt3/include/qvaluestack.h
 /usr/share/qt3/include/qvaluelist.h
+fedge/pop3fetcher.h
 /usr/share/qt3/include/qbuffer.h
 /usr/share/qt3/include/qiodevice.h
 /usr/share/qt3/include/qstring.h
@@ -292,5 +290,3 @@ fedge/pop3fetcher.h
 /usr/share/qt3/include/qobject.h
 /usr/share/qt3/include/qwinexport.h
 fedge/fetcher.h
-/usr/include/kde/kmdcodec.h
-/usr/include/kde/kdelibs_export.h

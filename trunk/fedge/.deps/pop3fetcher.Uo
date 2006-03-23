@@ -242,6 +242,8 @@ targetfile=$(top_builddir)/fedge/pop3fetcher.o
 /usr/share/qt3/include/qfile.h
 /usr/share/qt3/include/qiodevice.h
 /usr/share/qt3/include/qstring.h
+/usr/share/qt3/include/qtextcodec.h
+/usr/share/qt3/include/qstring.h
 /usr/include/kde/kio/job.h
 /usr/include/kde/kio/jobclasses.h
 /usr/share/qt3/include/qguardedptr.h
@@ -257,6 +259,9 @@ targetfile=$(top_builddir)/fedge/pop3fetcher.o
 /usr/share/qt3/include/qstring.h
 /usr/share/qt3/include/qnamespace.h
 /usr/include/kde/klocale.h
+/usr/include/kde/kmdcodec.h
+/usr/include/kde/kdelibs_export.h
+/home/mkulke/Development/fedge-0.1/fedge/pop3common.h
 /home/mkulke/Development/fedge-0.1/fedge/pop3fetcher.h
 /usr/share/qt3/include/qvaluestack.h
 /usr/share/qt3/include/qvaluelist.h
@@ -300,10 +305,6 @@ targetfile=$(top_builddir)/fedge/pop3fetcher.o
 /usr/share/qt3/include/qstring.h
 /usr/share/qt3/include/qwinexport.h
 fedge/fetcher.h
-/usr/share/qt3/include/qptrstack.h
-/usr/share/qt3/include/qglist.h
-/usr/include/kde/kmdcodec.h
-/usr/include/kde/kdelibs_export.h
 /home/mkulke/Development/fedge-0.1/fedge/message.h
 /home/mkulke/Development/fedge-0.1/fedge/opener.h
 /home/mkulke/Development/fedge-0.1/fedge/deleter.h

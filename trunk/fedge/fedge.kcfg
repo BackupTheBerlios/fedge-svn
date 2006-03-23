@@ -6,8 +6,5 @@
 		<entry name="ShowErrorDialogs" type="Bool"> 
       	<label>Wether the Error Dialogs are to be shown.</label> 
     	</entry>
-		<entry name="Kurl" type="String">
-			<label>Temporary Kurl</label>
-		</entry>
   </group> 
 </kcfg>
