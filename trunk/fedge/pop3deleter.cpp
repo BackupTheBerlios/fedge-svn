@@ -32,27 +32,15 @@ void Pop3Deleter::getMessage(Message *m) {
 	if (!m) commit(); 
 	else {
 	
-		m_messagebuffer.setBuffer(QByteArray());
 		KURL kurl = Pop3Common::kurlBase(m_configmap) + "/headers/" + QString::number(m->number());
-		KIO::TransferJob *transferjob = KIO::get(kurl, true, false);
+		KIO::StoredTransferJob *transferjob = KIO::storedGet(kurl, true, false);
 		Pop3Common::setMetaData(m_configmap, transferjob);
 		transferjob->addMetaData("pop3number", QString::number(m->number()));
 		transferjob->addMetaData("crc", QString::number(m->crc()));
 		if (FedgeConfig::showErrorDialogs()) transferjob->setAutoErrorHandlingEnabled(true);  	
-		connect(transferjob, SIGNAL(data(KIO::Job*, const QByteArray&)), SLOT(slotData(KIO::Job*, const QByteArray&)));
 		connect(transferjob, SIGNAL(result(KIO::Job*)), SLOT(slotGetResult(KIO::Job*)));
 	}
 	delete m;	
-}
-
-void Pop3Deleter::slotData(KIO::Job * job, const QByteArray &data) {
-	
-	QIODevice::Offset size = m_messagebuffer.size();
-	
-	m_messagebuffer.open(IO_WriteOnly);
-	m_messagebuffer.at(size);
-	m_messagebuffer.writeBlock(data);
-	m_messagebuffer.close();
 }
 
 void Pop3Deleter::slotCommitResult(KIO::Job *job) { 
@@ -68,23 +56,23 @@ void Pop3Deleter::slotCommitResult(KIO::Job *job) {
 
 void Pop3Deleter::slotGetResult(KIO::Job *job) {
 
-	QByteArray a = m_messagebuffer.buffer();
-	Q_UINT16 crc = qChecksum(a, a.size());
+	QByteArray bytearray = static_cast<KIO::StoredTransferJob*>(job)->data();
+	Q_UINT16 crc = qChecksum(bytearray, bytearray.size());
 	KIO::MetaData meta = job->outgoingMetaData();
 
 	/* if there was an error the next message should be checked. */
 
 	if (job->error()){
 
-		qWarning("delete: error trying to get message %s", meta["pop3number"].latin1());
+		emit log("pop3deleter: error trying to get message " + meta["pop3number"] + ".");
 		getMessage(m_messagestack.pop());
 	} else if (meta["crc"].toUInt() != crc) {
 
-		 qWarning("delete: message %d: crc mismatch", meta["pop3number"].toInt());
+		 emit log("pop3deleter: message " + meta["pop3number"] + " crc mismatch");
 		 getMessage(m_messagestack.pop());		
 	} else {
 
-		qWarning("delete: message %d: crc match", meta["pop3number"].toInt());
+		emit log("pop3deleter: message " + meta["pop3number"] + " deleted.");
 		KIO::TransferJob *deletejob = KIO::get(Pop3Common::kurlBase(m_configmap) + "/remove/" + meta["pop3number"], true, false);
 		Pop3Common::setMetaData(m_configmap, deletejob);
 		deletejob->addMetaData(meta);
@@ -99,7 +87,7 @@ void Pop3Deleter::slotDelResult(KIO::Job *job) {
 
 	if (job->error()){
 
-		qWarning("delete: error trying to remove message %s", meta["pop3number"].latin1());		
+		emit log("pop3deleter: error trying to remove message " + meta["pop3number"] + ".");		
 	} else {
 
 		m_crctable->remove(meta["crc"].toUInt()); 	

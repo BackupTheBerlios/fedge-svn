@@ -11,6 +11,7 @@ public:
  
 signals:
 	void openFinished();
+	void log(QString l);
 };
 
 #endif // OPENER_H

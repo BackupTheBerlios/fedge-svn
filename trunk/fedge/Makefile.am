@@ -19,9 +19,9 @@ fedge_LDADD   = $(LIB_KFILE) -lkdeprint
 
 # which sources should be compiled for fedge
 fedge_SOURCES = main.cpp fedge.cpp message.cpp pop3fetcher.cpp fedgeballoon.cpp \
-			pop3deleter.cpp deleter.cpp fetcher.cpp fedgeconfig.kcfgc configgeneraloptions.ui \
-			configaccounts.ui account.cpp appopener.cpp kmailaccount.cpp pop3common.cpp \
-			fedgeconfigaccounts.cpp fedgeselectdialog.cpp fedgeconfigdialog.cpp
+	pop3deleter.cpp deleter.cpp fetcher.cpp fedgeconfig.kcfgc configgeneraloptions.ui \
+	configaccounts.ui account.cpp appopener.cpp kmailaccount.cpp pop3common.cpp \
+	fedgeconfigaccounts.cpp fedgeselectdialog.cpp fedgeconfigdialog.cpp
 
 # these are the headers for your project
 noinst_HEADERS = fedge.h message.h fetcher.h deleter.h opener.h pop3fetcher.h \

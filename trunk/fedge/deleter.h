@@ -21,6 +21,7 @@ protected:
 
 signals:
 	void deleteFinished();
+	void log(QString l);
 };
 
 #endif // DELETER_H

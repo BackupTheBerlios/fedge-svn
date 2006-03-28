@@ -28,13 +28,16 @@ KmailAccount::KmailAccount(QString accountname) : Account("KMail")
 	QStringList args;
 	args << "kmail" << "--check";
 	m_opener = new AppOpener(args);
-
 	m_deleter = new Pop3Deleter(&m_crctable, &m_configmap);
 	m_fetcher = new Pop3Fetcher(&m_crctable, &m_configmap);
 
 	connect(m_fetcher, SIGNAL(fetchFinished()), SLOT(slotFetchFinished()));	
 	connect(m_deleter, SIGNAL(deleteFinished()), SLOT(slotDeleteFinished()));	
 	connect(m_opener, SIGNAL(openFinished()), SLOT(slotOpenFinished()));
+
+	connect(m_fetcher, SIGNAL(log(QString)), SIGNAL(log(QString)));	
+	connect(m_deleter, SIGNAL(log(QString)), SIGNAL(log(QString)));	
+	connect(m_opener, SIGNAL(log(QString)), SIGNAL(log(QString)));	
 }
 
 KmailAccount::~KmailAccount()
@@ -60,13 +63,13 @@ void KmailAccount::readConfig() {
 
 	if (m_configmap.empty()) {
 	
-		qWarning("kmail: %s configuration entry is not valid in kmailrc, disabling the account.", m_accountname.latin1());
+		emit log("kmailaccount: " + m_accountname + " configuration entry is not valid in kmailrc, disabling the account.");
 		m_enabled = false;
 	}
 
 	if (m_configmap["Type"] != "pop") {
 	
-		qWarning("kmail: %s accounts currently not-supported, disabling the account.", m_configmap["Type"].latin1());
+		emit log("kmailaccount: " + m_configmap["Type"] + " accounts currently not-supported, disabling the account.");
 		m_enabled = false;
 	}
 }

@@ -13,7 +13,9 @@
 class Account;
 class QTimer;
 class KSystemTray;
+class KListBox;
 class Message;
+class FedgeLogBox;
 
 /**
  * This class serves as the main window for fedge.  It handles the
@@ -47,19 +49,19 @@ private slots:
 	
 	void slotTimeout();
 	void slotApplyConfig();
-	
+	void slotShowConfigure();	
+	void slotLog(QString l);
+
 private:
 	void setupAccel();
 	void setupActions();
 	
 private:
 		
+	KListBox *m_logbox;
 	QPtrList<Account> m_accounts;
 	QTimer		*m_timer;
 	KSystemTray *m_systemtray;
-
-private slots:
-   void slotShowConfigure();
 };
 
 #endif // FEDGE_H

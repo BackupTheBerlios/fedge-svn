@@ -53,7 +53,7 @@ FedgeConfigAccounts::~FedgeConfigAccounts()
 
 void FedgeConfigAccounts::slotSelectionChanged() {
 
-	qWarning("slotSelectionChanged() called");
+// 	qWarning("slotSelectionChanged() called");
 
 	bool entryselected = (accountsBox->index(accountsBox->selectedItem()) != -1);
 
@@ -63,7 +63,7 @@ void FedgeConfigAccounts::slotSelectionChanged() {
 
 void FedgeConfigAccounts::addAccount(Account *account)
 {
-	qWarning("add account() called");
+// 	qWarning("add account() called");
 
 	QMap<QString, QString> map = account->accountMap();
 	QMap<QString, QString>::Iterator mit;
@@ -175,7 +175,7 @@ QString FedgeConfigAccounts::newGroup() {
 void FedgeConfigAccounts::save()
 {
 
-	qWarning("save() called");
+// 	qWarning("save() called");
 
 	m_changed = false;
 	m_config->sync();

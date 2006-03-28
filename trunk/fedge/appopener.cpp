@@ -34,7 +34,7 @@ bool AppOpener::open() {
    if (proc->start()) return true;
 	else {
 
-		qWarning("open: app start failed");
+		emit log("appopener: app start failed.");
 
 		delete proc;
 		return false;
@@ -43,7 +43,7 @@ bool AppOpener::open() {
 
 void AppOpener::slotKmailExited(KProcess *proc) {
 
-	qWarning("open: app exited");
+	emit log("appopener: app exited.");
 
 	delete proc;
 	emit openFinished();

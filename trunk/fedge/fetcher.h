@@ -21,6 +21,7 @@ class Fetcher : public QObject {
 
 	signals:
 		void fetchFinished();
+		void log(QString l);
 };
 
 #endif // FETCHER_H

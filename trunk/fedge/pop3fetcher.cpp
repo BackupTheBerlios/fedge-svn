@@ -40,7 +40,7 @@ void Pop3Fetcher::getMessage(int n) {
 	
 	/* The messagebuffer is filled with an empty array (aka cleared). */
 
-	m_messagebuffer.setBuffer(QByteArray());
+// 	m_messagebuffer.setBuffer(QByteArray());
 	
 	/* The url for the slave to get a mail is constructed by the kurl-base, a
 	string defined in derived classes a "headers" string and the number
@@ -51,7 +51,7 @@ void Pop3Fetcher::getMessage(int n) {
 	/* The TransferJob is started by the get Method (true says it should not 
 	be retrieved from cache and false supresses progress widgets). */
 
-	KIO::TransferJob *transferjob = KIO::get(kurl, true, false);
+	KIO::StoredTransferJob *transferjob = KIO::storedGet(kurl, true, false);
 	Pop3Common::setMetaData(m_configmap, transferjob);
 
 	/* The job is added the number of the message as metadata */
@@ -64,21 +64,7 @@ void Pop3Fetcher::getMessage(int n) {
 	/* The job gets connected to a slot which handles data arriving from the job (the mail) and
 	a slot for the result of the job. */ 
   	
-	connect(transferjob, SIGNAL(data(KIO::Job*, const QByteArray&)), SLOT(slotData(KIO::Job*, const QByteArray&)));
 	connect(transferjob, SIGNAL(result(KIO::Job*)), SLOT(slotGetResult(KIO::Job*)));
-}
-
-void Pop3Fetcher::slotData(KIO::Job*, const QByteArray &data) {
-	
-	/* The messagebuffer is opened, the newly arrived data is appended
-	at the messagebuffers end, then the buffer is closed. */ 
-
-	QIODevice::Offset size = m_messagebuffer.size();
-	
-	m_messagebuffer.open(IO_WriteOnly);
-	m_messagebuffer.at(size);
-	m_messagebuffer.writeBlock(data);
-	m_messagebuffer.close();
 }
 
 void Pop3Fetcher::slotCommitResult(KIO::Job *job) { 
@@ -118,20 +104,18 @@ void Pop3Fetcher::slotGetResult(KIO::Job *job) {
 
 		/* The crc of the arrived message is calculated. */
 
-		QByteArray a = m_messagebuffer.buffer();
-		Q_UINT16 crc = qChecksum(a, a.size());
+		QByteArray bytearray = static_cast<KIO::StoredTransferJob*>(job)->data();
+		Q_UINT16 crc = qChecksum(bytearray, bytearray.size());
 		
 		/* Check wether the crc of the message is yet in the list, which means
 		we have shown this message yet. */
 
 		if (!m_crctable->contains(crc)) {
-			
+
 			/* The messagebuffer is opened and a textstream is created with it. 
 			the standard values are set.*/
-
-			m_messagebuffer.open(IO_ReadOnly);
-			QTextStream stream(&m_messagebuffer);
-// 			stream.setCodec(QTextCodec::codecForName("iso 8859-1"));
+			
+			QTextStream stream(bytearray, IO_ReadOnly);
 			QString line = "";
 			QString sender = "";
 			QString subject = i18n("no subject");;
@@ -146,6 +130,8 @@ void Pop3Fetcher::slotGetResult(KIO::Job *job) {
 	<ahigerd> So what I'd do is read in the line as a QString using the Latin-1 codec, then split it on the ? character into a QStringList
 	<ahigerd> Decode the quoted characters, then pass the 4th part to QTextCodec using the 2nd part as the charset
 	<ahigerd> Use the 3rd part to determine whether to decode it as quoted characters or as base64
+	
+	stream.setCodec(QTextCodec::codecForName("iso 8859-1"));
 
 	http://www.faqs.org/rfcs/rfc2047.html chapter 2 */
 							
@@ -153,14 +139,15 @@ void Pop3Fetcher::slotGetResult(KIO::Job *job) {
 				if ((line.startsWith("Subject:")) || (line.startsWith("subject:"))) subject = line.remove(0,8);
 				else if ((line.startsWith("From:")) || (line.startsWith("from:"))) sender = line.remove(0,5);		
 			}	
-			m_messagebuffer.close();
 
 			if (sender == "") {
 
-				qWarning("get: fetched illegal message.");
+				emit log("pop3fetcher: fetched illegal mail.");
 				getMessage();
 				return;
 			}
+
+			emit log("pop3fetcher: new mail fetched.");
 			
 			/* The number of the header is extracted from the jobs metadata,
 			the crc is added to the table and a new message is created on the
@@ -180,7 +167,7 @@ void Pop3Fetcher::slotEntries(KIO::Job *, const KIO::UDSEntryList &list) {
 		
 	unsigned int count = list.count();
 	
-	qWarning("get: %d entries arrived", count);
+// 	emit log("pop3fetcher: " + QString::number(count) + " entries arrived");
 	
 	/* If there are less messages read in, than there are hashes in the hashtable,
 	we assume an email-client has been invoked and the messages have been read. */

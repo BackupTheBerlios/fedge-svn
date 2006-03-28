@@ -39,10 +39,8 @@ public slots:
 	void slotCommitResult(KIO::Job *job);
 	void slotGetResult(KIO::Job *job);
 	void slotDelResult(KIO::Job *job);
-	void slotData(KIO::Job * job, const QByteArray &data);
 
 private:	
-	QBuffer m_messagebuffer;
 	QMap<QString, QString> *m_configmap;	
 };
 

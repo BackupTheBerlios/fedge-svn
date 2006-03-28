@@ -25,7 +25,6 @@ class Pop3Fetcher : public Fetcher {
 
 	public slots:	
 		void slotEntries(KIO::Job *job, const KIO::UDSEntryList &list);
-		void slotData(KIO::Job *job, const QByteArray &data);
 		void slotGetResult(KIO::Job *job);
 		void slotCommitResult(KIO::Job *job);
 		void slotListDirResult(KIO::Job *job);
@@ -33,7 +32,6 @@ class Pop3Fetcher : public Fetcher {
 	private:
 		unsigned int m_tofetch;
 		QMap<QString, QString> *m_configmap;
-		QBuffer m_messagebuffer;	
 };
 
 #endif // POP3FETCHER_H

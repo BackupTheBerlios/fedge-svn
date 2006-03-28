@@ -35,14 +35,14 @@ FedgeConfigDialog::~FedgeConfigDialog()
 
 bool FedgeConfigDialog::hasChanged() {
 
-	qWarning("hasChanged() called");
+// 	qWarning("hasChanged() called");
 
  	return m_accountsdialog->changed() || KConfigDialog::hasChanged();
 }
 
 void FedgeConfigDialog::updateSettings() {
 
-	qWarning("updateSettings() called");
+// 	qWarning("updateSettings() called");
 
 	m_accountsdialog->save();
 	emit settingsChanged();

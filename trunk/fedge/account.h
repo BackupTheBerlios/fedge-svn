@@ -61,6 +61,8 @@ protected slots:
 	void slotDelete(Message *message);
 	void slotIgnore(Message *message);		
 	void slotOpen(Message *message);
+signals:
+	void log(QString);
 };
 
 #endif

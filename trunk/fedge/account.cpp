@@ -90,11 +90,11 @@ void Account::showMessage(Message *message) {
 	
 		Fedge *fedge = static_cast<Fedge*>(KApplication::kApplication()->mainWidget());
 
-		qWarning("no: %d, crc: %d, sender:%s, subject:%s", 
-			message->number(), 
-			message->crc(), 
-			message->sender().latin1(), 
-			message->subject().latin1());
+// 		qWarning("no: %d, crc: %d, sender:%s, subject:%s", 
+// 			message->number(), 
+// 			message->crc(), 
+// 			message->sender().latin1(), 
+// 			message->subject().latin1());
 	
 		FedgeBalloon *balloon = new FedgeBalloon(message);
 		balloon->setAnchor(fedge->systemTray()->mapToGlobal(QPoint(0, 0)));
