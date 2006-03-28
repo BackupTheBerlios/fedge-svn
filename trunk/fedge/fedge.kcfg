@@ -6,5 +6,8 @@
 		<entry name="ShowErrorDialogs" type="Bool"> 
       	<label>Wether the Error Dialogs are to be shown.</label> 
     	</entry>
+		<entry name="FetchInterval" type="Int">
+			<label>The Interval (in seconds) in which the mails are to be fetched.</label>
+		</entry>
   </group> 
 </kcfg>

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>281</width>
-            <height>194</height>
+            <width>362</width>
+            <height>222</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,67 +19,20 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QToolButton" row="0" column="0">
+        <widget class="QPushButton" row="0" column="0">
             <property name="name">
-                <cstring>toolButton2</cstring>
+                <cstring>kmailButton</cstring>
             </property>
             <property name="text">
-                <string></string>
+                <string>Add &amp;KMail Account</string>
             </property>
-            <property name="iconSet">
-                <iconset>image0</iconset>
-            </property>
-            <property name="usesTextLabel">
-                <bool>true</bool>
-            </property>
-            <property name="textLabel">
-                <string>Add Kmail Account</string>
-            </property>
-            <property name="textPosition">
-                <enum>BesideIcon</enum>
+            <property name="accel">
+                <string>Alt+K</string>
             </property>
         </widget>
-        <widget class="Line" row="1" column="0" rowspan="1" colspan="2">
+        <spacer row="0" column="1" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>line1</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>HLine</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QListView" row="2" column="0" rowspan="1" colspan="2">
-            <column>
-                <property name="text">
-                    <string>Column 1</string>
-                </property>
-                <property name="clickable">
-                    <bool>true</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
-        <item>
-            <property name="text">
-                <string>New Item</string>
-            </property>
-            <property name="pixmap">
-                <pixmap></pixmap>
-            </property>
-        </item>
-            <property name="name">
-                <cstring>listView3</cstring>
-            </property>
-        </widget>
-        <spacer row="0" column="1">
-            <property name="name">
-                <cstring>spacer2</cstring>
+                <cstring>spacer3</cstring>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>
@@ -89,17 +42,65 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>120</width>
+                    <width>230</width>
                     <height>20</height>
                 </size>
             </property>
         </spacer>
+        <spacer row="4" column="2">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>91</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QPushButton" row="3" column="2">
+            <property name="name">
+                <cstring>enableButton</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>Toggle Ena&amp;ble</string>
+            </property>
+            <property name="accel">
+                <string>Alt+B</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="2" column="2">
+            <property name="name">
+                <cstring>removeButton</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>Re&amp;move</string>
+            </property>
+            <property name="accel">
+                <string>Alt+M</string>
+            </property>
+        </widget>
+        <widget class="KListBox" row="2" column="0" rowspan="3" colspan="2">
+            <property name="name">
+                <cstring>accountsBox</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
-<images>
-    <image name="image0">
-        <data format="PNG" length="1656">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af40000063f4944415458859d974b6c5c5719c7ffe79c7bef3c3d8ec78eed3a4e09900863a998ca4541a408550284ca228815205854dd545036b04015ac0081c443956003aa84822a2141a55680044da52a1b24c4a32528519d87711a4f9c8cc78ec79ee7bde7f17d2ceeccf58cc7e347bfd5b9dfdcef3bbff3bdee198163c8a34f7efb43f9e9859f4a2f75014c25665a65b22572ba44a65d32edadd5fada5ba5cd1b7f2e03088fe2531c75f3f77df6e7cfe78a677e28a54a811d0324959ff184f4d4de77c986866cb4c14cab20578a21a392d3ad926eacaf3ef8cfa5255d2f3700c03b2a407a72e19332373ddaa362639a865d64c00e82890127c004c13e43a922d81585a205c14e78725469b1e54cadc29947ce7f49d7fff8a763010032b34721a49f0be0e78e641dd64a8deabdffe6002184f06c577f0c804161a76de5ea6f22a952949b597c56f9b929a1824921bd692f33fe8c50418f7fe101420000b3d3c9b18eba991022bd57472e224066ac6e9895d7bef24ae5ea6f7fd7d8b895af576e8ef7ec11c392ed5d27057a9c080cc0b2330c2124c08d994ffde0735e7ef625486fc245352bfcfe8cf50398e8bd00f8030064385ea09e9f79e24250383d3bccb8170064cdb100f2673e53d08dca98f47346fad90484c97267556f95af5e22ddb82583dc07bdece477a597eef3dd0b40364c5270680d4c7ee27b5f3831ffe5eb96f058bd7253d4d6de6aeafafd76ecb47b106eacffeb97ab8d872bc5c6c6f2d9784ef44b1f80ae1f5e03631f79e674666af1175e76e262b77a5db463cdf6b227e138189901bbc4697df6a91ffd44e5a69e23d326e965bac389d11976bd002eaa0d4f814a15bc931f7fe1797fe4d4f7854a8d744eeaf4d6ad88a26a1a424a32cdb0d72993253f3ffd6850984d779fc3ea9d76d47c280080a2edc8d4def5bb83d7b6369216e90398f8d8b79e488dcffd4aa54617bb3adbaa84667b5900c842c41973a6196fec34a49f6fa5a7162f32c30280ae3f6887f5b2800c32427a4e6f2f6b0aab7908194785d992690e46e0910b2f3c999e7cfcafce461e3b630116ba7a2ba2683b0d21fb6a857493012075e28c52e9223b1b5a7651d4285f6362a4217d98daddb6addf531022d3058ff777003018013f37cdb9c9f93c009069d9eaedbf44a46bd95ee3ae38d3129d74052a5540b473b71ed6ca0a4229b2a1d6dbb70964339dd2e91776a21720f11e6e2e5512a59ff5a4bf77f4f744c0b404c049a57ba9517ff4f4f97c616641e9ada578f321c2cc1a801b00d8bcf6f20693a3eeb3906ae0331b7b20ebe54fb99db5b7a3c6faf576ebe172c89db613d25760b7af598f038db83bfa01c83477c8347a2e1162a09721543b98788c82b17359a1d26962913151d397aa3b749899ec61b3a5ef23d1db05cce4d601bc3f3e8dda0560b22a3ba9831367070a925d6464904b0300d9c8420c89dc110000a60420d948c830287e58a8f458763f6f52050928db360be91d3cde99db430198dd7a772d20b44c175d30762e2d841a1a56e90549a993330e40702000607a1ffa696917203bb510045183c986dad908644340a60221fb61a4dafd48b2d343ef984c3612d24be1a0143099a415bd4c31e5658a7d4e9c6e68a79b443604d908ce8690ca4f3a67ef2524563207859976f6e4bcdd5e7933051c900272ba9cac4dcb483feba1e7e6ac827ca082fcb04382baf7835d1ff7c6ce3d3d9e2e9ecb9a66a54b373c02649a490a76eebc69747dcda954e16f23a7ce5f965e665ea8605e287f4ea50a05ec33e6ba29607686c29d176b77def8f1e4e3cf3e887f248bb83e8603d87675b708a52f21545ad71f2cddfec3c59ff5bc26c7e6be383b7af6e9793f3b31efe5a6bea182910f7400180048375edabafef27700806df82e82fc1cc092c9546d7babd7573f40b8f94eb970e6a90e40a79d99aa7b0e4ad51bafae566fbcba0ae0f5b9af5df93c3a00e4b4ecd894ba2fb72bd7beee174e2ddaf6d64c54fddfafeb2b976f0e05d85a7a65f3e4e273248492d805d8c1c1920c1e768662137bbfabbb7bf99b57005c1966dcd752b6b5b9433a1ec742c46cccee30804498e21a20dbbe7fd8bbfb02002026b701c42920d3fab76d6dbc71b00b914a8c6d5c03aebdb576548081b159bdf9daa773d38b1f358df2786de5f54ba6568af633ec91e4104c469069fd3ddc7ce7ce7b0658ffc78bcb00968feac034cbbf67a60d21bd391756afb7eefff3abb6b571a4bfe600f07f6d9858d674a83d8c0000000049454e44ae426082</data>
-    </image>
-</images>
-<layoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="0"/>
+<includehints>
+    <includehint>klistbox.h</includehint>
+</includehints>
 </UI>

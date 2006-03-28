@@ -8,12 +8,13 @@
 #include <qpainter.h>
 #include <qpaintdevicemetrics.h>
 #include <qtimer.h>
+#include <qstringlist.h>
 
 #include <kdeversion.h>
 #include <kglobal.h>
 #include <klocale.h>
-#include <kiconloader.h>
 #include <kmenubar.h>
+#include <ksystemtray.h>
 #include <kstatusbar.h>
 #include <kaccel.h>
 #include <kio/netaccess.h>
@@ -29,8 +30,6 @@
 #include <kio/job.h>
 #include <kio/global.h>
 #include <kmessagebox.h>
-#include <ksystemtray.h>
-#include <kconfigdialog.h>
 #include <kpopupmenu.h>
 #include <kiconloader.h>
 
@@ -40,18 +39,17 @@
 #include "opener.h"
 #include "deleter.h"
 #include "kmailaccount.h"
-#include "fedgeballoon.h"
-#include "message.h"
 #include "fedgeconfig.h"
 #include "configgeneraloptions.h"
-#include "configaccounts.h"
+#include "fedgeconfigaccounts.h"
+#include "fedgeconfigdialog.h"
+
+#include <fedgeselectdialog.h>
 
 Fedge::Fedge() : KMainWindow(0, "fedge")
 {
 // 	FedgeConfig::setShowErrorDialogs(false); 
 // 	FedgeConfig::writeConfig(); 
-
-
 
     // accept dnd
     //setAcceptDrops(true);
@@ -78,31 +76,39 @@ Fedge::Fedge() : KMainWindow(0, "fedge")
 	/*The fetcher is created, its message signal is connected
 	to a class method. the messages are then fetched. */
 		
-	m_account = new KmailAccount();
-	connect(m_account->fetcher(), SIGNAL(fetchFinished()), SLOT(slotFetchFinished()));	
-	connect(m_account->deleter(), SIGNAL(deleteFinished()), SLOT(slotDeleteFinished()));	
-	connect(m_account->opener(), SIGNAL(openFinished()), SLOT(slotOpenFinished()));	
+// 	m_accounts.append(new KmailAccount("Account 1"));
 
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), SLOT(slotTimeout()));
-	m_timer->start(30000);
+
+	slotApplyConfig();
 }
 
 Fedge::~Fedge() { }
 
-void Fedge::slotFetchFinished() {
+void Fedge::slotApplyConfig() {
 
-	showMessage(m_account->fetcher()->popMessage());
-}
+	qWarning("slotApplyConfig() called");
 
-void Fedge::slotDeleteFinished() {
+	m_timer->changeInterval(FedgeConfig::fetchInterval() * 1000);
 
-	m_account->setReady(true);
-}
+	KConfig config("fedgerc", true);
+	QMap<QString, QString> configmap;
+	int i = 0;
 
-void Fedge::slotOpenFinished() {
+	m_accounts.clear();
 
-	m_account->setReady(true);
+	while (config.hasGroup("Account " + QString::number(i))) {
+
+		configmap = config.entryMap("Account " + QString::number(i));	
+		if (configmap["name"] = "KMail") {
+
+			KmailAccount *account = new KmailAccount(configmap["accountname"]);
+			account->setEnabled(configmap["enabled"] == "true");
+			m_accounts.append(account);
+		}
+		i++;
+	}	
 }
 
 void Fedge::slotTimeout() {
@@ -110,50 +116,15 @@ void Fedge::slotTimeout() {
 	/* if the busy flag is unset, the messages are fetched and the 
 	busy flag is set. */
 
-	if (m_account->ready()) {
+	Account *account;
+	for (account = m_accounts.first(); account; account = m_accounts.next()) {
 
-		m_account->fetcher()->fetchMessages();
-		m_account->setReady(false);
+		if (account->ready()) {
+
+			account->fetcher()->fetchMessages();
+			account->setReady(false);
+		}
 	}
-}
-
-void Fedge::showMessage(Message *message) {
-
-	/* When there are no more messages to be shown, the messages which
-	have been selected to be deleted get deleted.*/
-
-	if(!message) m_account->deleter()->deleteMessages();
-	else {
-	
-		qWarning("no: %d, crc: %d, sender:%s, subject:%s", 
-			message->number(), 
-			message->crc(), 
-			message->sender().latin1(), 
-			message->subject().latin1());
-	
-		FedgeBalloon *balloon = new FedgeBalloon(message);
-		balloon->setAnchor(m_systemtray->mapToGlobal(QPoint(0, 0)));//m_systemtray->pos());
-		connect(balloon, SIGNAL(del(Message*)), SLOT(slotDelete(Message*)));
-		connect(balloon, SIGNAL(ignore(Message*)), SLOT(slotIgnore(Message*)));
-		connect(balloon, SIGNAL(open(Message*)), SLOT(slotOpen(Message*)));
-	
-		balloon->show();
-	}
-}
-
-void Fedge::slotIgnore(Message *message) {
-
-	/* The message gets deleted, as its of no use anymore, 
-	then the next message on the fetchers stack is popped. */
-
-	delete message;
-	showMessage(m_account->fetcher()->popMessage());
-}
-
-void Fedge::slotDelete(Message *message) {
- 
- 	m_account->deleter()->pushMessage(message);
-	showMessage(m_account->fetcher()->popMessage());
 }
 
 /*!
@@ -161,28 +132,14 @@ void Fedge::slotDelete(Message *message) {
  */
 void Fedge::slotShowConfigure()
 {
-	KConfigDialog* dialog = new KConfigDialog(0, "settings", FedgeConfig::self(), KDialogBase::IconList,
-                KDialogBase::Ok | KDialogBase::Apply | KDialogBase::Cancel );
-	dialog->addPage(new ConfigGeneralOptions(0, i18n("General")), i18n("General"), "fedge");
-	dialog->addPage(new ConfigAccounts(0, i18n("Accounts")), i18n("Accounts"), "identity");
-	dialog->show();
-// 	 connect(dialog, SIGNAL(settingsChanged()), this, SLOT(slotApplyConfig()));
+ 	FedgeConfigDialog *dialog = new FedgeConfigDialog(&m_accounts);
+	connect(dialog, SIGNAL(settingsChanged()), SLOT(slotLoadAccounts()));
+ 	dialog->show();
 }
 
-void Fedge::saveSettings()
-{
-	FedgeConfig::writeConfig();
-}
+// void Fedge::saveSettings()
+// {
+// // 	FedgeConfig::writeConfig();
+// }
 
 #include "fedge.moc"
-
-/*!
-    \fn Fedge::slotOpen(Message *message)
- */
-void Fedge::slotOpen(Message *message)
-{
-    /* Delete the crc table, the messages on the delete and the fetchstack. */
- 
-	if (m_account->opener()->open()) m_account->clearMessages();
-	else m_account->setReady(true);
-}

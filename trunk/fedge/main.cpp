@@ -23,35 +23,6 @@ int main(int argc, char **argv)
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);
     KApplication app;
-
-    // register ourselves as a dcop client
-//     app.dcopClient()->registerAs(app.name(), false);
-
-    // see if we are starting with session management
-//     if (app.isRestored())
-//         RESTORE(fedge)
-//     else
-//     {
-        // no session.. just start up normally
-//         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-//         if (args->count() == 0)
-//         {
-//             fedge *widget = new fedge;
-            //widget->show();
-//         }
-//         else
-//         {
-//             int i = 0;
-//             for (; i < args->count(); i++)
-//             {
-						new Fedge();
-//                 fedge *widget = new fedge;
-//                 widget->show();
-//                 widget->load(args->url(i));
-//             }
-//         }
-//         args->clear();
-//     }
-
+	 app.setMainWidget(new Fedge());
     return app.exec();
 }

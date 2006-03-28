@@ -5,6 +5,8 @@
 #include <config.h>
 #endif
 
+#include <qptrlist.h>
+
 #include <kapplication.h>
 #include <kmainwindow.h>
 
@@ -39,35 +41,25 @@ public:
      * Use this method to load whatever file/URL you have
      */
 //     void load(const KURL& url);
-
-private:
-
-	void saveSettings();
+	KSystemTray* systemTray() { return m_systemtray; };
 
 private slots:
 	
 	void slotTimeout();
-	void slotFetchFinished();
-	void slotDeleteFinished();
-	void slotOpenFinished();
-	void slotDelete(Message *message);
-	void slotIgnore(Message *message);		
-	void slotOpen(Message *message);
-
+	void slotApplyConfig();
+	
 private:
 	void setupAccel();
 	void setupActions();
-	void showMessage(Message *message);
-
+	
 private:
 		
-	Account *m_account;
+	QPtrList<Account> m_accounts;
 	QTimer		*m_timer;
 	KSystemTray *m_systemtray;
-// 	bool m_busy;
 
-public slots:
-    void slotShowConfigure();
+private slots:
+   void slotShowConfigure();
 };
 
 #endif // FEDGE_H

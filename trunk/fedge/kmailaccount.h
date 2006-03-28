@@ -24,12 +24,15 @@ class KConfig;
 class KmailAccount : public Account
 {
 public:
-    KmailAccount();
+    KmailAccount(QString accountname);
     ~KmailAccount();
-	bool ready();
+	QMap<QString, QString> accountMap();
+	QString string() { return m_name + ": " + m_configmap["Name"]; };
 private:
 	
-	bool readConfig();
+	QString m_string;
+	QString m_accountname;
+	void readConfig();
 	QMap<QString, QString> m_configmap;
 	KConfig *m_config;
 };
